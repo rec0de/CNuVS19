@@ -1,0 +1,39 @@
+\documentclass[a4paper, 11 pt, article, accentcolor=tud7b]{tudreport}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+
+\title{CNuVS Exercise 0}
+\author{Nils Rollshausen}
+\subtitle{Nils Rollshausen}
+
+\begin{document}
+	\maketitle
+	\section{Pigeon-Based Networks}
+	\subsection*{Connection speeds}
+	Our pigeon can transport 64 Gib in one trip. Transferring the same amount of data () on a 100 Mib/s cable connection takes $\frac{64 GiB \cdot 1024^{3} \cdot 8}{100 Mib/s \cdot 1024^{2}} = 5243 s$. With an average speed of $97 km/h \approx 26.944 m/s$, the pigeon can travel $5243 s \cdot 26.944 m/s = 141267.392 m$ or about 141.27 km in that time while still outperforming the cable connection.
+	\subsection*{Connection type}
+	The pigeon-based network is a connection-less network as it consists only of the data transfer by the pigeon in one discrete packet - at no point is a connection established by handshaking etc.
+	
+	\section{Message Sequence Charts}
+	$$X = d$$
+	$$Y = \frac{p}{r}$$
+	
+	\section{Basic Principles of Networks}
+	\subsection*{Simplex / Duplex}
+	A simplex channel can only carry information in one direction, there is only one static sender. Half-Duplex allows for bidirectional communication, but there may only be one sender at any given time. In a full-duplex communication, all parties can send at the same time.
+	\subsection*{Multiplexing}
+	Multiplexing refers to multiple connections and sender / receiver pairs sharing a single physical link, either via time- or frequency division.
+	\subsection*{Circuit switching vs packet switching}
+	In a circuit-switched network, a continuous connection is established between the communication partners, while in a packet switched network, discrete packets of information are routed from sender to receiver without ever establishing a concrete connection.
+	
+  \section{Hot potato routing}
+  
+  \subsection{Routing method}
+  In hot potato routing, a packet is routed to an arbitrary connected node without considering network topology.
+  \subsection{Sample Route}
+  The route taken from node 1 to 6 is 1 -> 4 -> 2 -> 6.
+  \subsection{Problems}
+  Without any consideration for network topology or a 'right direction', the chosen route can be incredibly inefficient and packets might never actually arrive at their destination. For example, a packet from 6 to 1 is routed in an endless loop as follows: 6 -> 2 -> 4 -> 5 -> 3 -> 6 -> ...
+  
+\end{document}
