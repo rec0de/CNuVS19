@@ -2,7 +2,7 @@
 
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
-\usepackage{tabulary}
+\usepackage{longtable}
 
 \title{CNuVS Exercise 1}
 \author{Nils Rollshausen}
@@ -11,17 +11,24 @@
 \begin{document}
 	\maketitle
 	\section{Dijkstra's Algorithm}
-	\begin{tabulary}{\textwidth}{| l | C | C | C | C | C | C | C | C | C | C | C | C |}
-	  \hline
-	  Visited Vertices & P2 & C2 & P3 & C3 & P4 & C4 & P5 & C5 & P6 & C6 & P7 & C7 \\ \hline
-	  1                &    &    &    &    &    &    & 1  & 1  &    &    & 1  & 4  \\ \hline
-	  1, 5             &    &    & 5  & 5  &    &    & 1  & 1  &    &    & 1  & 4  \\ \hline
-	  1, 5, 7          & 7  & 9  & 5  & 5  & 7  & 11 & 1  & 1  & 7  & 8  & 1  & 4  \\ \hline
-	  1, 5, 7, 3       & 7  & 9  & 5  & 5  & 7  & 11 & 1  & 1  & 3  & 7  & 1  & 4  \\ \hline
-	  1, 5, 7, 3, 6    & 7  & 9  & 5  & 5  & 7  & 11 & 1  & 1  & 3  & 7  & 1  & 4  \\ \hline
-	  1, 5, 7, 3, 6, 2 & 7  & 9  & 5  & 5  & 2  & 10 & 1  & 1  & 3  & 7  & 1  & 4  \\ \hline
-	  1, 5, 7, 3, 6, 2, 4 & 7 & 9 & 5 & 5  & 2  & 10 & 1  & 1  & 3  & 7  & 1  & 4  \\ \hline
-	\end{tabulary}
+	
+	\begin{longtable}[c]{l|ll|ll|ll|ll|ll|ll}
+		\caption{}
+		\label{Dijkstra}\\
+		Visited vertices    & $P_2$ & $C_2$ & $P_3$ & $C_3$ & $P_4$ & $C_4$ & $P_5$ & $C_5$ & $P_6$ & $C_6$ & $P_7$ & $C_7$ \\ \hline
+		\endfirsthead
+		%
+		\endhead
+		%
+		-                   & -    & $\infty$     & -    & $\infty$     & -    & $\infty$     & -    & $\infty$     & -    & $\infty$     & -    &  $\infty$    \\
+		1                   & -    & $\infty$     & -    & $\infty$     & -    & $\infty$     & 1    & 1    & -    & $\infty$     &  1    & 4    \\
+		1, 5                & -    & $\infty$     & 5    & 5    & -    & $\infty$     & 1    & 1    & -    & $\infty$     & 1    & 4    \\
+		1, 5, 7             & 7    & 9    & 5    & 5    & 7    & 11   & 1    & 1    & 7    & 8    & 1    & 4    \\
+		1, 5, 7, 3          & 7    & 9    & 5    & 5    & 7    & 11   & 1    & 1    & 3    & 7    & 1    & 4    \\
+		1, 5, 7, 3, 6       & 7    & 9    & 5    & 5    & 7    & 11   & 1    & 1    & 3    & 7    & 1    & 4    \\
+		1, 5, 7, 3, 6, 2    & 7    & 9    & 5    & 5    & 2    & 10   & 1    & 1    & 3    & 7    & 1    & 4    \\
+		1, 5, 7, 3, 6, 2, 4 & 7    & 9    & 5    & 5    & 2    & 10   & 1    & 1    & 3    & 7    & 1    & 4   
+	\end{longtable}
 	
 	\section{Multiplexing}
 	\subsection*{a) Internet without Multiplexing}
