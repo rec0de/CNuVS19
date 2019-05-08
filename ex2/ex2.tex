@@ -1,0 +1,620 @@
+\documentclass[a4paper, 11 pt, article, accentcolor=tud7b]{tudreport}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{subcaption}
+\usepackage{xcolor}
+
+\title{CNuVS Exercise 2}
+\author{Nils Rollshausen, Daniel Drodt}
+\subtitle{Nils Rollshausen, Daniel Drodt}
+
+\begin{document}
+	\maketitle
+	\section{ISO OSI}
+	
+	\subsection*{a) Layers}
+	\textbf{Physical Layer, Data Link Layer, Network Layer, Transport Layer}, Session Layer, Presentation Layer, Application Layer \\
+	\textit{Transport-oriented layers in bold}
+	
+	\subsection*{b) Layer functionality}
+	The Physical Layer is responsible for the actual transfer of bits over a phyiscal connection. Example protocol: RS232-C\medskip \\
+	The Data Link Layer provides reliable point-to-point data transfer between neighboring systems using error correction and medium access control. Example protocol: Ethernet \medskip \\
+	The Network Layer provides routed multi-hop connectivity between nodes and may provide further error correction and flow control. Example protocol: IP \medskip \\
+	The Transport Layer provides logical connections between to processes and ensures quality of service while also abstracting from network details. Example protocol: TCP \medskip \\
+	The Session Layer controls connections between endpoints by managing e.g. connection setup, teardown or rollback. Example protocol: SNA\medskip \\
+	The Presentation Layer provides a universal intermediate representation of data that is accessible to all participating hosts. Example protocol: ASN.1  \medskip \\
+	The Application Layer handles the actual, application-specific communication. Example protocol: HTTP 
+	
+	\subsection*{c) OSI vs. TCP/IP}
+	In the TCP/IP Stack, the Session-, Presentation- and Application Layers are combined into a single Application Layer. The OSI Transport Layer corresponds to the TCP/IP Transport Layer, the OSI Network Layer is equivalent to the TCP/IP Internet Layer, Data-Link and Physical Layers in the OSI model correspond to the Network Access and Physical Layers in the TCP/IP stack.
+	
+	\section{Distance Vector Routing}
+	
+	\textit{Changed values in red, minimal distances bold. Changed minima are marked in red even if no value change occurred.}
+	
+	\subsection*{a) Initial State}
+	\begin{table}[h]
+	  \begin{subtable}[b]{\textwidth / 6}
+	    \begin{tabular}{| c | c | c |}
+	      \hline
+	        & B & C \\ \hline
+	      B & \textbf{1} &   \\ \hline
+	      C &   & \textbf{2} \\ \hline
+	      D &   &   \\ \hline
+	      E &   &   \\ \hline
+	    \end{tabular}
+	    \caption{$D^{A}$}
+	  \end{subtable}
+	  \hfill
+	  \begin{subtable}[b]{\textwidth / 6}
+	    \begin{tabular}{| c | c | c | c |}
+	    \hline
+	      & A & D & E \\ \hline
+	    A & \textbf{1} &   &   \\ \hline
+	    C &   &   &   \\ \hline
+	    D &   & \textbf{3} &   \\ \hline
+	    E &   &   & \textbf{4} \\ \hline
+	    \end{tabular}
+	    \caption{$D^{B}$}
+	  \end{subtable}
+	  \hfill
+	  \begin{subtable}[b]{\textwidth / 6}
+	    \begin{tabular}{| c | c | c |}
+	    \hline
+	      & A & D \\ \hline
+	    A & \textbf{2} &   \\ \hline
+	    B &   &   \\ \hline
+	    D &   & \textbf{3} \\ \hline
+	    E &   &   \\ \hline
+	    \end{tabular}
+	    \caption{$D^{C}$}
+	  \end{subtable}
+    \hfill
+	  \begin{subtable}[b]{\textwidth / 6}
+	    \begin{tabular}{| c | c | c | c |}
+	    \hline
+	      & B & C & E \\ \hline
+	    A &   &   &   \\ \hline
+	    B & \textbf{3} &   &   \\ \hline
+	    C &   & \textbf{3} &   \\ \hline
+	    E &   &   & \textbf{2} \\ \hline
+	    \end{tabular}
+	    \caption{$D^{D}$}
+	  \end{subtable}
+	  \hfill
+	  \begin{subtable}[b]{\textwidth / 6}
+	    \begin{tabular}{| c | c | c |}
+	    \hline
+	      & B & D          \\ \hline
+	    A &   &            \\ \hline
+	    B & \textbf{4} &   \\ \hline
+	    C &   &            \\ \hline
+	    D &   & \textbf{2} \\ \hline
+	    \end{tabular}
+	    \caption{$D^{E}$}
+	  \end{subtable}
+	  \caption{Initial state}
+	\end{table}
+	
+	\newpage
+	
+	\subsection*{b) Synchronisation}
+	
+	\begin{table}[h]
+	  \begin{subtable}[b]{\textwidth / 6}
+	    \begin{tabular}{| c | c | c |}
+	      \hline
+	        & B                   & C          \\ \hline
+	      B & \textbf{1}          &            \\ \hline
+	      C &                     & \textbf{2} \\ \hline
+	      D & \textbf{\textcolor{red}{4}} & \textcolor{red}{5} \\ \hline
+	      E & \textbf{\textcolor{red}{5}} &            \\ \hline
+	    \end{tabular}
+	    \caption{$D^{A}$}
+	  \end{subtable}
+	  \hfill
+	  \begin{subtable}[b]{\textwidth / 6}
+	    \begin{tabular}{| c | c | c | c |}
+	    \hline
+	      & A                           & D                  & E                  \\ \hline
+	    A & \textbf{1}                  &                    &                    \\ \hline
+	    C & \textbf{\textcolor{red}{3}} & \textcolor{red}{6} &                    \\ \hline
+	    D &                             & \textbf{3}         & \textcolor{red}{6} \\ \hline
+	    E &                             & \textcolor{red}{5} & \textbf{4}         \\ \hline
+	    \end{tabular}
+	    \caption{$D^{B}$}
+	  \end{subtable}
+	  \hfill
+	  \begin{subtable}[b]{\textwidth / 6}
+	    \begin{tabular}{| c | c | c |}
+	    \hline
+	      & A                   & D          \\ \hline
+	    A & \textbf{2}          &            \\ \hline
+	    B & \textbf{\textcolor{red}{3}} & \textcolor{red}{6} \\ \hline
+	    D &                     & \textbf{3} \\ \hline
+	    E &                     & \textbf{\textcolor{red}{5}} \\ \hline
+	    \end{tabular}
+	    \caption{$D^{C}$}
+	  \end{subtable}
+    \hfill
+	  \begin{subtable}[b]{\textwidth / 6}
+	    \begin{tabular}{| c | c | c | c |}
+	    \hline
+	      & B                   & C           & E           \\ \hline
+	    A & \textbf{\textcolor{red}{4}} & \textcolor{red}{5}  &             \\ \hline
+	    B & \textbf{3}          &             & \textcolor{red}{6}  \\ \hline
+	    C &                     & \textbf{3}  &             \\ \hline
+	    E & \textcolor{red}{7}          &             & \textbf{2}  \\ \hline
+	    \end{tabular}
+	    \caption{$D^{D}$}
+	  \end{subtable}
+	  \hfill
+	  \begin{subtable}[b]{\textwidth / 6}
+	    \begin{tabular}{| c | c | c |}
+	    \hline
+	      & B                   & D                    \\ \hline
+	    A & \textbf{\textcolor{red}{5}} &                      \\ \hline
+	    B & \textbf{4}          & \textcolor{red}{5}           \\ \hline
+	    C &                     & \textbf{\textcolor{red}{5}}  \\ \hline
+	    D & \textcolor{red}{7}          & \textbf{2}           \\ \hline
+	    \end{tabular}
+	    \caption{$D^{E}$}
+	  \end{subtable}
+	  \caption{First round}
+	\end{table}
+	
+	\begin{table}[h]
+	  \begin{subtable}[b]{\textwidth / 6}
+	    \begin{tabular}{| c | c | c |}
+	      \hline
+	        & B                   & C          \\ \hline
+	      B & \textbf{1}          & \textcolor{red}{5} \\ \hline
+	      C & \textcolor{red}{4}          & \textbf{2} \\ \hline
+	      D & \textbf{4}          & 5          \\ \hline
+	      E & \textbf{5}          & \textcolor{red}{7} \\ \hline
+	    \end{tabular}
+	    \caption{$D^{A}$}
+	  \end{subtable}
+	  \hfill
+	  \begin{subtable}[b]{\textwidth / 6}
+	    \begin{tabular}{| c | c | c | c |}
+	    \hline
+	      & A                   & D                  & E                  \\ \hline
+	    A & \textbf{1}          & \textcolor{red}{7} & \textcolor{red}{9} \\ \hline
+	    C & \textbf{3}          & 6                  & \textcolor{red}{9} \\ \hline
+	    D & \textcolor{red}{5}  & \textbf{3}         & 6                  \\ \hline
+	    E & \textcolor{red}{6}  & 5                  & \textbf{4}         \\ \hline
+	    \end{tabular}
+	    \caption{$D^{B}$}
+	  \end{subtable}
+	  \hfill
+	  \begin{subtable}[b]{\textwidth / 6}
+	    \begin{tabular}{| c | c | c |}
+	    \hline
+	      & A                   & D                  \\ \hline
+	    A & \textbf{2}          & \textcolor{red}{7} \\ \hline
+	    B & \textbf{3}          & 6                  \\ \hline
+	    D & \textcolor{red}{6}  & \textbf{3}         \\ \hline
+	    E & \textcolor{red}{7}  & \textbf{5}         \\ \hline
+	    \end{tabular}
+	    \caption{$D^{C}$}
+	  \end{subtable}
+    \hfill
+	  \begin{subtable}[b]{\textwidth / 6}
+	    \begin{tabular}{| c | c | c | c |}
+	    \hline
+	      & B                   & C                  & E                  \\ \hline
+	    A & \textbf{4}          & 5                  & \textcolor{red}{7} \\ \hline
+	    B & \textbf{3}          & \textcolor{red}{6} & 6                  \\ \hline
+	    C & \textcolor{red}{6}  & \textbf{3}         & \textcolor{red}{7} \\ \hline
+	    E & 7                   & \textcolor{red}{8} & \textbf{2}         \\ \hline
+	    \end{tabular}
+	    \caption{$D^{D}$}
+	  \end{subtable}
+	  \hfill
+	  \begin{subtable}[b]{\textwidth / 6}
+	    \begin{tabular}{| c | c | c |}
+	    \hline
+	      & B                   & D                    \\ \hline
+	    A & \textbf{5}          & \textcolor{red}{6}           \\ \hline
+	    B & \textbf{4}          & 5                    \\ \hline
+	    C & \textcolor{red}{7}          & \textbf{5}           \\ \hline
+	    D & 7                   & \textbf{2}           \\ \hline
+	    \end{tabular}
+	    \caption{$D^{E}$}
+	  \end{subtable}
+	  \caption{Second round}
+	\end{table}
+	
+	After the second round, no minimum has changed and the algorithm terminates.
+	
+	\newpage
+	
+	\subsection*{c) Decreased Link Cost}
+	
+			\begin{table}[h]
+	  \begin{subtable}[b]{\textwidth / 6}
+	    \begin{tabular}{| c | c | c |}
+	      \hline
+	        & B                   & C          \\ \hline
+	      B & \textbf{1}          & 5          \\ \hline
+	      C & 4                   & \textbf{2} \\ \hline
+	      D & \textbf{4}          & 5          \\ \hline
+	      E & 5                   & 7          \\ \hline
+	    \end{tabular}
+	    \caption{$D^{A}$}
+	  \end{subtable}
+	  \hfill
+	  \begin{subtable}[b]{\textwidth / 6}
+	    \begin{tabular}{| c | c | c | c |}
+	    \hline
+	      & A                   & D          & E                  \\ \hline
+	    A & \textbf{1}          & 7          & \textcolor{red}{6} \\ \hline
+	    C & \textbf{3}          & 6          & \textcolor{red}{6} \\ \hline
+	    D & 5                   & \textbf{3} & \textcolor{red}{3} \\ \hline
+	    E & 6                   & 5          & \textbf{\textcolor{red}{1}} \\ \hline
+	    \end{tabular}
+	    \caption{$D^{B}$}
+	  \end{subtable}
+	  \hfill
+	  \begin{subtable}[b]{\textwidth / 6}
+	    \begin{tabular}{| c | c | c |}
+	    \hline
+	      & A                   & D          \\ \hline
+	    A & \textbf{2}          & 7          \\ \hline
+	    B & \textbf{3}          & 6          \\ \hline
+	    D & 6                   & \textbf{3} \\ \hline
+	    E & 7                   & \textbf{5} \\ \hline
+	    \end{tabular}
+	    \caption{$D^{C}$}
+	  \end{subtable}
+    \hfill
+	  \begin{subtable}[b]{\textwidth / 6}
+	    \begin{tabular}{| c | c | c | c |}
+	    \hline
+	      & B                   & C           & E           \\ \hline
+	    A & \textbf{4}          & 5           & 7           \\ \hline
+	    B & \textbf{3}          & 6           & 6           \\ \hline
+	    C & 6                   & \textbf{3}  & 7           \\ \hline
+	    E & 7                   & 8           & \textbf{2}  \\ \hline
+	    \end{tabular}
+	    \caption{$D^{D}$}
+	  \end{subtable}
+	  \hfill
+	  \begin{subtable}[b]{\textwidth / 6}
+	    \begin{tabular}{| c | c | c |}
+	    \hline
+	      & B                   & D                    \\ \hline
+	    A & \textbf{\textcolor{red}{2}} & 6            \\ \hline
+	    B & \textbf{\textcolor{red}{1}} & 5            \\ \hline
+	    C & \textbf{\textcolor{red}{4}} & 5            \\ \hline
+	    D & \textcolor{red}{4}          & \textbf{2}   \\ \hline
+	    \end{tabular}
+	    \caption{$D^{E}$}
+	  \end{subtable}
+	  \caption{New initial state}
+	\end{table}
+	
+	\begin{table}[h]
+	  \begin{subtable}[b]{\textwidth / 6}
+	    \begin{tabular}{| c | c | c |}
+	      \hline
+	        & B                   & C          \\ \hline
+	      B & \textbf{1}          & 5          \\ \hline
+	      C & 4                   & \textbf{2} \\ \hline
+	      D & \textbf{4}          & 5          \\ \hline
+	      E & \textbf{\textcolor{red}{2}}          & 7          \\ \hline
+	    \end{tabular}
+	    \caption{$D^{A}$}
+	  \end{subtable}
+	  \hfill
+	  \begin{subtable}[b]{\textwidth / 6}
+	    \begin{tabular}{| c | c | c | c |}
+	    \hline
+	      & A                   & D          & E                  \\ \hline
+	    A & \textbf{1}          & 7          & \textcolor{red}{3} \\ \hline
+	    C & \textbf{3}          & 6          & \textcolor{red}{5} \\ \hline
+	    D & 5                   & \textbf{3} & 3                  \\ \hline
+	    E & 6                   & 5          & \textbf{1}         \\ \hline
+	    \end{tabular}
+	    \caption{$D^{B}$}
+	  \end{subtable}
+	  \hfill
+	  \begin{subtable}[b]{\textwidth / 6}
+	    \begin{tabular}{| c | c | c |}
+	    \hline
+	      & A                   & D          \\ \hline
+	    A & \textbf{2}          & 7          \\ \hline
+	    B & \textbf{3}          & 6          \\ \hline
+	    D & 6                   & \textbf{3} \\ \hline
+	    E & 7                   & \textbf{5} \\ \hline
+	    \end{tabular}
+	    \caption{$D^{C}$}
+	  \end{subtable}
+    \hfill
+	  \begin{subtable}[b]{\textwidth / 6}
+	    \begin{tabular}{| c | c | c | c |}
+	    \hline
+	      & B                   & C           & E           \\ \hline
+	    A & \textbf{4}          & 5           & \textcolor{red}{4} \\ \hline
+	    B & \textbf{3}          & 6           & \textcolor{red}{3} \\ \hline
+	    C & 6                   & \textbf{3}  & \textcolor{red}{6} \\ \hline
+	    E & \textcolor{red}{4}  & 8           & \textbf{2}  \\ \hline
+	    \end{tabular}
+	    \caption{$D^{D}$}
+	  \end{subtable}
+	  \hfill
+	  \begin{subtable}[b]{\textwidth / 6}
+	    \begin{tabular}{| c | c | c |}
+	    \hline
+	      & B          & D           \\ \hline
+	    A & \textbf{2} & 6           \\ \hline
+	    B & \textbf{1} & 5           \\ \hline
+	    C & \textbf{4} & 5           \\ \hline
+	    D & 4          & \textbf{2}  \\ \hline
+	    \end{tabular}
+	    \caption{$D^{E}$}
+	  \end{subtable}
+	  \caption{First round}
+	\end{table}
+	
+			\begin{table}[h]
+	  \begin{subtable}[b]{\textwidth / 6}
+	    \begin{tabular}{| c | c | c |}
+	      \hline
+	        & B                   & C          \\ \hline
+	      B & \textbf{1}          & 5          \\ \hline
+	      C & 4                   & \textbf{2} \\ \hline
+	      D & \textbf{4}          & 5          \\ \hline
+	      E & \textbf{2}          & 7          \\ \hline
+	    \end{tabular}
+	    \caption{$D^{A}$}
+	  \end{subtable}
+	  \hfill
+	  \begin{subtable}[b]{\textwidth / 6}
+	    \begin{tabular}{| c | c | c | c |}
+	    \hline
+	      & A                   & D          & E                  \\ \hline
+	    A & \textbf{1}          & 7          & 3                  \\ \hline
+	    C & \textbf{3}          & 6          & 5                  \\ \hline
+	    D & 5                   & \textbf{3} & 3                  \\ \hline
+	    E & \textcolor{red}{3}  & 5          & \textbf{1}         \\ \hline
+	    \end{tabular}
+	    \caption{$D^{B}$}
+	  \end{subtable}
+	  \hfill
+	  \begin{subtable}[b]{\textwidth / 6}
+	    \begin{tabular}{| c | c | c |}
+	    \hline
+	      & A                   & D          \\ \hline
+	    A & \textbf{2}          & 7          \\ \hline
+	    B & \textbf{3}          & 6          \\ \hline
+	    D & 6                   & \textbf{3} \\ \hline
+	    E & \textbf{\textcolor{red}{4}} & 5  \\ \hline
+	    \end{tabular}
+	    \caption{$D^{C}$}
+	  \end{subtable}
+    \hfill
+	  \begin{subtable}[b]{\textwidth / 6}
+	    \begin{tabular}{| c | c | c | c |}
+	    \hline
+	      & B                   & C           & E           \\ \hline
+	    A & \textbf{4}          & 5           & \textcolor{red}{4} \\ \hline
+	    B & \textbf{3}          & 6           & \textcolor{red}{3} \\ \hline
+	    C & 6                   & \textbf{3}  & \textcolor{red}{6} \\ \hline
+	    E & \textcolor{red}{4}  & 8           & \textbf{2}  \\ \hline
+	    \end{tabular}
+	    \caption{$D^{D}$}
+	  \end{subtable}
+	  \hfill
+	  \begin{subtable}[b]{\textwidth / 6}
+	    \begin{tabular}{| c | c | c |}
+	    \hline
+	      & B          & D           \\ \hline
+	    A & \textbf{2} & 6           \\ \hline
+	    B & \textbf{1} & 5           \\ \hline
+	    C & \textbf{4} & 5           \\ \hline
+	    D & 4          & \textbf{2}  \\ \hline
+	    \end{tabular}
+	    \caption{$D^{E}$}
+	  \end{subtable}
+	  \caption{Second round}
+	\end{table}
+
+  \begin{table}[h]
+	  \begin{subtable}[b]{\textwidth / 6}
+	    \begin{tabular}{| c | c | c |}
+	      \hline
+	        & B                   & C          \\ \hline
+	      B & \textbf{1}          & 5          \\ \hline
+	      C & 4                   & \textbf{2} \\ \hline
+	      D & \textbf{4}          & 5          \\ \hline
+	      E & \textbf{2}          & \textcolor{red}{6} \\ \hline
+	    \end{tabular}
+	    \caption{$D^{A}$}
+	  \end{subtable}
+	  \hfill
+	  \begin{subtable}[b]{\textwidth / 6}
+	    \begin{tabular}{| c | c | c | c |}
+	    \hline
+	      & A                   & D          & E                  \\ \hline
+	    A & \textbf{1}          & 7          & 3                  \\ \hline
+	    C & \textbf{3}          & 6          & 5                  \\ \hline
+	    D & 5                   & \textbf{3} & 3                  \\ \hline
+	    E & 3                   & 5          & \textbf{1}         \\ \hline
+	    \end{tabular}
+	    \caption{$D^{B}$}
+	  \end{subtable}
+	  \hfill
+	  \begin{subtable}[b]{\textwidth / 6}
+	    \begin{tabular}{| c | c | c |}
+	    \hline
+	      & A                   & D          \\ \hline
+	    A & \textbf{2}          & 7          \\ \hline
+	    B & \textbf{3}          & 6          \\ \hline
+	    D & 6                   & \textbf{3} \\ \hline
+	    E & \textbf{4}          & 5  \\ \hline
+	    \end{tabular}
+	    \caption{$D^{C}$}
+	  \end{subtable}
+    \hfill
+	  \begin{subtable}[b]{\textwidth / 6}
+	    \begin{tabular}{| c | c | c | c |}
+	    \hline
+	      & B                   & C           & E                  \\ \hline
+	    A & \textbf{4}          & 5           & 4                  \\ \hline
+	    B & \textbf{3}          & 6           & 3                  \\ \hline
+	    C & 6                   & \textbf{3}  & 6                  \\ \hline
+	    E & 4                   & \textcolor{red}{7} & \textbf{2}  \\ \hline
+	    \end{tabular}
+	    \caption{$D^{D}$}
+	  \end{subtable}
+	  \hfill
+	  \begin{subtable}[b]{\textwidth / 6}
+	    \begin{tabular}{| c | c | c |}
+	    \hline
+	      & B                   & D                    \\ \hline
+	    A & \textbf{2}          & 6                    \\ \hline
+	    B & \textbf{1}          & 5                    \\ \hline
+	    C & \textbf{4}          & 5                    \\ \hline
+	    D & 4                   & \textbf{2}           \\ \hline
+	    \end{tabular}
+	    \caption{$D^{E}$}
+	  \end{subtable}
+	  \caption{Third round}
+	\end{table}
+	
+	\newpage
+	
+	\subsection*{d) Link loss}
+	
+	\begin{table}[h]
+	  \begin{subtable}[b]{\textwidth / 6}
+	    \begin{tabular}{| c | c | c |}
+	      \hline
+	        & B                   & C          \\ \hline
+	      B & \textbf{1}          & 5          \\ \hline
+	      C & 4                   & \textbf{2} \\ \hline
+	      D & \textbf{4}          & 5          \\ \hline
+	      E & \textbf{5}          & 7          \\ \hline
+	    \end{tabular}
+	    \caption{$D^{A}$}
+	  \end{subtable}
+	  \hfill
+	  \begin{subtable}[b]{\textwidth / 6}
+	    \begin{tabular}{| c | c | c |}
+	    \hline
+	      & A                   & E                  \\ \hline
+	    A & \textbf{1}          & 9                  \\ \hline
+	    C & \textbf{3}          & 9                  \\ \hline
+	    D & \textbf{\textcolor{red}{5}} & 6          \\ \hline
+	    E & 6                   & \textbf{4}         \\ \hline
+	    \end{tabular}
+	    \caption{$D^{B}$}
+	  \end{subtable}
+	  \hfill
+	  \begin{subtable}[b]{\textwidth / 6}
+	    \begin{tabular}{| c | c | c |}
+	    \hline
+	      & A                   & D                  \\ \hline
+	    A & \textbf{2}          & 7                  \\ \hline
+	    B & \textbf{3}          & 6                  \\ \hline
+	    D & 6                   & \textbf{3}         \\ \hline
+	    E & 7                   & \textbf{5}         \\ \hline
+	    \end{tabular}
+	    \caption{$D^{C}$}
+	  \end{subtable}
+    \hfill
+	  \begin{subtable}[b]{\textwidth / 6}
+	    \begin{tabular}{| c | c | c |}
+	    \hline
+	      & C                  & E                  \\ \hline
+	    A & \textbf{\textcolor{red}{5}} & 7         \\ \hline
+	    B & \textbf{\textcolor{red}{6}} & 6         \\ \hline
+	    C & \textbf{3}         & 7                  \\ \hline
+	    E & 8                  & \textbf{2}         \\ \hline
+	    \end{tabular}
+	    \caption{$D^{D}$}
+	  \end{subtable}
+	  \hfill
+	  \begin{subtable}[b]{\textwidth / 6}
+	    \begin{tabular}{| c | c | c |}
+	    \hline
+	      & B                   & D                    \\ \hline
+	    A & \textbf{5}          & 6                    \\ \hline
+	    B & \textbf{4}          & 5                    \\ \hline
+	    C & 7                   & \textbf{5}           \\ \hline
+	    D & 7                   & \textbf{2}           \\ \hline
+	    \end{tabular}
+	    \caption{$D^{E}$}
+	  \end{subtable}
+	  \caption{New initial state}
+	\end{table}
+	
+	\begin{table}[h]
+	  \begin{subtable}[b]{\textwidth / 6}
+	    \begin{tabular}{| c | c | c |}
+	      \hline
+	        & B                   & C          \\ \hline
+	      B & \textbf{1}          & 5          \\ \hline
+	      C & 4                   & \textbf{2} \\ \hline
+	      D & \textcolor{red}{6}  & \textbf{\textcolor{red}{5}} \\ \hline
+	      E & \textbf{5}          & 7          \\ \hline
+	    \end{tabular}
+	    \caption{$D^{A}$}
+	  \end{subtable}
+	  \hfill
+	  \begin{subtable}[b]{\textwidth / 6}
+	    \begin{tabular}{| c | c | c |}
+	    \hline
+	      & A                   & E                  \\ \hline
+	    A & \textbf{1}          & 9                  \\ \hline
+	    C & \textbf{3}          & 9                  \\ \hline
+	    D & \textbf{5}          & 6                  \\ \hline
+	    E & 6                   & \textbf{4}         \\ \hline
+	    \end{tabular}
+	    \caption{$D^{B}$}
+	  \end{subtable}
+	  \hfill
+	  \begin{subtable}[b]{\textwidth / 6}
+	    \begin{tabular}{| c | c | c |}
+	    \hline
+	      & A                   & D                  \\ \hline
+	    A & \textbf{2}          & \textcolor{red}{8} \\ \hline
+	    B & \textbf{3}          & \textcolor{red}{9} \\ \hline
+	    D & 6                   & \textbf{3}         \\ \hline
+	    E & 7                   & \textbf{5}         \\ \hline
+	    \end{tabular}
+	    \caption{$D^{C}$}
+	  \end{subtable}
+    \hfill
+	  \begin{subtable}[b]{\textwidth / 6}
+	    \begin{tabular}{| c | c | c |}
+	    \hline
+	      & C                  & E                  \\ \hline
+	    A & \textbf{5}         & 7                  \\ \hline
+	    B & \textbf{6}         & 6                  \\ \hline
+	    C & \textbf{3}         & 7                  \\ \hline
+	    E & 8                  & \textbf{2}         \\ \hline
+	    \end{tabular}
+	    \caption{$D^{D}$}
+	  \end{subtable}
+	  \hfill
+	  \begin{subtable}[b]{\textwidth / 6}
+	    \begin{tabular}{| c | c | c |}
+	    \hline
+	      & B                   & D                    \\ \hline
+	    A & \textbf{5}          & \textcolor{red}{7}   \\ \hline
+	    B & \textbf{4}          & \textcolor{red}{8}   \\ \hline
+	    C & 7                   & \textbf{5}           \\ \hline
+	    D & \textcolor{red}{8}  & \textbf{2}           \\ \hline
+	    \end{tabular}
+	    \caption{$D^{E}$}
+	  \end{subtable}
+	  \caption{First round}
+	\end{table}
+	
+	[Why would propagation stop here? Minimum in A is changed]
+	
+\end{document}
