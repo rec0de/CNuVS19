@@ -33,18 +33,18 @@
 	
 	\section{Distance Vector Routing}
 	
-	\textit{Changed values in red, minimal distances bold. Changed minima are marked in red even if no value change occurred.}
+	\textit{One table per origin node, rows are destination nodes, columns are via-nodes. Changed values in red, minimal distances bold. Changed minima are marked in red even if no value change occurred.}
 	
 	\subsection*{a) Initial State}
 	\begin{table}[h]
 	  \begin{subtable}[b]{\textwidth / 6}
 	    \begin{tabular}{| c | c | c |}
 	      \hline
-	        & B & C \\ \hline
-	      B & \textbf{1} &   \\ \hline
-	      C &   & \textbf{2} \\ \hline
-	      D &   &   \\ \hline
-	      E &   &   \\ \hline
+	        & B          & C          \\ \hline
+	      B & \textbf{1} &            \\ \hline
+	      C &            & \textbf{2} \\ \hline
+	      D &            &            \\ \hline
+	      E &            &            \\ \hline
 	    \end{tabular}
 	    \caption{$D^{A}$}
 	  \end{subtable}
@@ -52,11 +52,11 @@
 	  \begin{subtable}[b]{\textwidth / 6}
 	    \begin{tabular}{| c | c | c | c |}
 	    \hline
-	      & A & D & E \\ \hline
-	    A & \textbf{1} &   &   \\ \hline
-	    C &   &   &   \\ \hline
-	    D &   & \textbf{3} &   \\ \hline
-	    E &   &   & \textbf{4} \\ \hline
+	      & A          & D & E                   \\ \hline
+	    A & \textbf{1} &            &            \\ \hline
+	    C &            &            &            \\ \hline
+	    D &            & \textbf{3} &            \\ \hline
+	    E &            &            & \textbf{4} \\ \hline
 	    \end{tabular}
 	    \caption{$D^{B}$}
 	  \end{subtable}
@@ -64,11 +64,11 @@
 	  \begin{subtable}[b]{\textwidth / 6}
 	    \begin{tabular}{| c | c | c |}
 	    \hline
-	      & A & D \\ \hline
-	    A & \textbf{2} &   \\ \hline
-	    B &   &   \\ \hline
-	    D &   & \textbf{3} \\ \hline
-	    E &   &   \\ \hline
+	      & A          & D          \\ \hline
+	    A & \textbf{2} &            \\ \hline
+	    B &            &            \\ \hline
+	    D &            & \textbf{3} \\ \hline
+	    E &            &            \\ \hline
 	    \end{tabular}
 	    \caption{$D^{C}$}
 	  \end{subtable}
@@ -105,11 +105,11 @@
 	  \begin{subtable}[b]{\textwidth / 6}
 	    \begin{tabular}{| c | c | c |}
 	      \hline
-	        & B                   & C          \\ \hline
-	      B & \textbf{1}          &            \\ \hline
-	      C &                     & \textbf{2} \\ \hline
+	        & B                           & C                  \\ \hline
+	      B & \textbf{1}                  &                    \\ \hline
+	      C &                             & \textbf{2}         \\ \hline
 	      D & \textbf{\textcolor{red}{4}} & \textcolor{red}{5} \\ \hline
-	      E & \textbf{\textcolor{red}{5}} &            \\ \hline
+	      E & \textbf{\textcolor{red}{5}} &                    \\ \hline
 	    \end{tabular}
 	    \caption{$D^{A}$}
 	  \end{subtable}
@@ -129,11 +129,11 @@
 	  \begin{subtable}[b]{\textwidth / 6}
 	    \begin{tabular}{| c | c | c |}
 	    \hline
-	      & A                   & D          \\ \hline
-	    A & \textbf{2}          &            \\ \hline
-	    B & \textbf{\textcolor{red}{3}} & \textcolor{red}{6} \\ \hline
-	    D &                     & \textbf{3} \\ \hline
-	    E &                     & \textbf{\textcolor{red}{5}} \\ \hline
+	      & A                           & D                           \\ \hline
+	    A & \textbf{2}                  &                             \\ \hline
+	    B & \textbf{\textcolor{red}{3}} & \textcolor{red}{6}          \\ \hline
+	    D &                             & \textbf{3}                  \\ \hline
+	    E &                             & \textbf{\textcolor{red}{5}} \\ \hline
 	    \end{tabular}
 	    \caption{$D^{C}$}
 	  \end{subtable}
@@ -141,11 +141,11 @@
 	  \begin{subtable}[b]{\textwidth / 6}
 	    \begin{tabular}{| c | c | c | c |}
 	    \hline
-	      & B                   & C           & E           \\ \hline
-	    A & \textbf{\textcolor{red}{4}} & \textcolor{red}{5}  &             \\ \hline
+	      & B                   & C           & E                   \\ \hline
+	    A & \textbf{\textcolor{red}{4}} & \textcolor{red}{5} &      \\ \hline
 	    B & \textbf{3}          &             & \textcolor{red}{6}  \\ \hline
-	    C &                     & \textbf{3}  &             \\ \hline
-	    E & \textcolor{red}{7}          &             & \textbf{2}  \\ \hline
+	    C &                     & \textbf{3}  &                     \\ \hline
+	    E & \textcolor{red}{7}  &             & \textbf{2}          \\ \hline
 	    \end{tabular}
 	    \caption{$D^{D}$}
 	  \end{subtable}
@@ -153,11 +153,11 @@
 	  \begin{subtable}[b]{\textwidth / 6}
 	    \begin{tabular}{| c | c | c |}
 	    \hline
-	      & B                   & D                    \\ \hline
+	      & B                   & D                            \\ \hline
 	    A & \textbf{\textcolor{red}{5}} &                      \\ \hline
 	    B & \textbf{4}          & \textcolor{red}{5}           \\ \hline
 	    C &                     & \textbf{\textcolor{red}{5}}  \\ \hline
-	    D & \textcolor{red}{7}          & \textbf{2}           \\ \hline
+	    D & \textcolor{red}{7}  & \textbf{2}                   \\ \hline
 	    \end{tabular}
 	    \caption{$D^{E}$}
 	  \end{subtable}
@@ -168,10 +168,10 @@
 	  \begin{subtable}[b]{\textwidth / 6}
 	    \begin{tabular}{| c | c | c |}
 	      \hline
-	        & B                   & C          \\ \hline
+	        & B                   & C                  \\ \hline
 	      B & \textbf{1}          & \textcolor{red}{5} \\ \hline
-	      C & \textcolor{red}{4}          & \textbf{2} \\ \hline
-	      D & \textbf{4}          & 5          \\ \hline
+	      C & \textcolor{red}{4}  & \textbf{2}         \\ \hline
+	      D & \textbf{4}          & 5                  \\ \hline
 	      E & \textbf{5}          & \textcolor{red}{7} \\ \hline
 	    \end{tabular}
 	    \caption{$D^{A}$}
