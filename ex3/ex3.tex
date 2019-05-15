@@ -1,0 +1,107 @@
+\documentclass[a4paper, 11 pt, article, accentcolor=tud7b]{tudreport}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{longtable}
+
+\title{CNuVS Exercise 3}
+\author{Nils Rollshausen, Daniel Drodt}
+\subtitle{Nils Rollshausen, Daniel Drodt}
+
+\begin{document}
+	\maketitle
+	\section{Link State Routing}
+	\subsection*{a) Algorithm}
+	\subsubsection*{Initial packets}
+	Packet A: (A,5,D) (A,1,E) \\
+	Packet B: (B,4,C) (B,6,E) \\
+	Packet C: (C,4,B) (C,14,D) \\
+	Packet D: (D,5,A) (D,14,C) (D,3,E) \\
+	Packet E: (E,1,A) (E,6,B) (E,3,D) \\
+	\subsubsection*{Flooding}
+	A sends to D: Link State Packet A \\
+	A sends to E: Link State Packet A \\
+	B sends to C: Link State Packet B \\
+	B sends to E: Link State Packet B \\
+	C sends to B: Link State Packet C \\
+	C sends to D: Link State Packet C \\
+	D sends to A: Link State Packet D \\
+	D sends to C: Link State Packet D \\
+	D sends to E: Link State Packet D \\
+	E sends to A: Link State Packet E \\
+	E sends to B: Link State Packet E \\
+	E sends to D: Link State Packet E \medskip \\
+	
+	A sends to D: Link State Packets D, E \\
+	A sends to E: Link State Packets D, E \\
+	B sends to C: Link State Packets C, E \\
+	B sends to E: Link State Packets C, E \\
+	C sends to B: Link State Packets B, D \\
+	C sends to D: Link State Packets B, D \\
+	D sends to A: Link State Packets A, C, E \\
+	D sends to C: Link State Packets A, C, E \\
+	D sends to E: Link State Packets A, C, E \\
+	E sends to A: Link State Packets A, B, D \\
+	E sends to B: Link State Packets A, B, D \\
+	\subsubsection*{Final table}
+	\begin{tabular}{| c | c | c |}
+	  \hline
+	  From & To & Weight \\ \hline
+	  A & E & 1 \\ \hline
+	  A & D & 5 \\ \hline
+	  B & C & 4 \\ \hline
+	  B & E & 6 \\ \hline
+	  C & D & 14 \\ \hline
+	  D & E & 3 \\ \hline
+	\end{tabular}
+	
+	\subsection*{b) Shortest Paths}
+	
+	\begin{table}[h]
+	  \centering
+	  \begin{tabular}{| c | c | l |}
+	    \hline
+	    Node pair & Distance & Path \\ \hline
+	    AB        & 7        & $A \leftrightarrow E \leftrightarrow  B$ \\ \hline
+	    AC        & 11       & $A \leftrightarrow E \leftrightarrow B \leftrightarrow C$ \\ \hline
+	    AD        & 4        & $A \leftrightarrow E \leftrightarrow D$ \\ \hline
+	    AE        & 1        & $A \leftrightarrow E$ \\ \hline
+	    BC        & 4        & $B \leftrightarrow C$ \\ \hline
+	    BD        & 9        & $B \leftrightarrow E \leftrightarrow D$ \\ \hline
+	    BE        & 6        & $B \leftrightarrow E$ \\ \hline
+	    CD        & 13       & $C \leftrightarrow B \leftrightarrow E \leftrightarrow D$ \\ \hline
+	    CE        & 10       & $C \leftrightarrow B \leftrightarrow E$\\ \hline
+	    DE        & 3        & $D \leftrightarrow E$ \\ \hline
+	  \end{tabular}
+	  \caption{Shortest paths between nodes}
+	\end{table}
+	
+	\begin{table}[h]
+	  \centering
+	  \begin{tabular}{| l | c | c | c | c | c | c | c | c | c | c |}
+	    \hline
+	    Done      & $d_A$ & $\pi_A$ & $d_B$ & $\pi_B$ & $d_C$ & $\pi_C$ & $d_D$ & $\pi_D$ & $d_E$ & $\pi_E$ \\ \hline
+	    D         & 5     & D       & $\infty$& -     & 14    & D       & 0     & -       & 3     & D       \\ \hline
+	    D,E       & 4     & E       & 9     & E       & 14    & D       & 0     & -       & 3     & D       \\ \hline
+	    D,E,A     & 4     & E       & 9     & E       & 14    & D       & 0     & -       & 3     & D       \\ \hline
+	    D,E,A,B   & 4     & E       & 9     & E       & 13    & B       & 0     & -       & 3     & D       \\ \hline
+	    D,E,A,B,C & 4     & E       & 9     & E       & 13    & B       & 0     & -       & 3     & D       \\ \hline
+	  \end{tabular}
+	  \caption{Dijkstra's Algorithm for node D}
+	\end{table}
+	
+	\subsection*{c) Counting to infinity}
+	The Link State Routing algorithm avoids the 'counting to infinity' problem because link state changes are sent as-is to all network nodes. As soon as every node received the broadcast packet, its internal knowledge about the network reflects the new reality. In particular, there is no need for cascading update chains as in DVR.
+	
+	\subsection*{d) Disadvantages}
+	Link State Routing is not as decentralized as DVR - every node in the network has to know the entire network topology, which comes with an increased memory cost and potentially higher communication overhead.
+	
+	\section{Routing Attacks}
+	\subsection*{a) Pakistan YouTube Hijack}
+	In an attempt to block access to YouTube in Pakistan, Pakistan Telecom announced a route to a YouTube-owned prefix via BGP. PCCW Global, a Hong Kong based provider that peered with Pakistan Telecom, erroneously forwarded the announcement to the wider internet, causing worldwide YouTube traffic to be routed to Pakistan. \\
+	Responsible for this outage was the provider's failure to only announce / forward routes that actually exist.
+	 
+	\subsection*{b) Belarus Traffic Hijack}
+	For an extended period of time, an attacker announced routes to certain subnets including those of goverments and financial institutions, thereby re-routing traffic to those subnets via the attacker-controlled routers in Belarus / Iceland, from where they would be sent to their original destination. Again, the protocol behind this attack is BGP. In paticular, the trust-based nature of BGP enabled the attack - there is no verification mechanism in place to allow routers to verify the integrity of the announcements they receive.
+	
+\end{document}
