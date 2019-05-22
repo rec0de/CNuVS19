@@ -1,0 +1,128 @@
+\documentclass[a4paper, 11 pt, article, accentcolor=tud7b]{tudreport}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{longtable}
+
+\title{CNuVS Exercise 4}
+\author{Nils Rollshausen, Daniel Drodt}
+\subtitle{Nils Rollshausen, Daniel Drodt}
+
+\begin{document}
+	\maketitle
+	\section{Dynamic Source Routing}
+	\subsection*{a) Packet Types}
+	Route Request packets are sent by the sender node when a new connection has to be established. They are broadcast (flooded) to the entire network, the expected result being a response packet containing a route from the sender to the destination node. \medskip \\
+	Route Reply packets are the packets sent from the destination node to the sender as a response to a Route Request packet. In a non-bidirectional network, these packets may again be delivered using flooding, otherwise they can be delivered using the established route they contain. \medskip \\
+	Route Error packets are sent from nodes on the route between source and destination to the source node if there is a problem with the route and the packet can not be delivered, informing the sender that a new route has to be established.
+	
+	\subsection*{b) Algorithm}
+	
+	\begin{table}[h]
+	  \centering
+	  \begin{tabular}{| l | l |}
+	    \hline
+	    Turn1  & Message \\ \hline
+	    $1 \rightarrow 2$ & RREQ(1,10,\{1,2\}) \\ \hline 
+	  \end{tabular}
+	  \caption{Turn 1}
+	\end{table}
+	
+	\begin{table}[h]
+	  \centering
+	  \begin{tabular}{| l | l |}
+	    \hline
+	    Turn2  & Message \\ \hline
+	    $2 \rightarrow 3$ & RREQ(1,10,\{1,2,3\}) \\ \hline 
+	    $2 \rightarrow 4$ & RREQ(1,10,\{1,2,4\}) \\ \hline 
+	  \end{tabular}
+	  \caption{Turn 2}
+	\end{table}
+	
+	\begin{table}[h]
+	  \centering
+	  \begin{tabular}{| l | l |}
+	    \hline
+	    Turn3  & Message \\ \hline
+	    $3 \rightarrow 7$ & RREQ(1,10,\{1,2,3,7\}) \\ \hline 
+	    $4 \rightarrow 5$ & RREQ(1,10,\{1,2,4,5\}) \\ \hline 
+	    $4 \rightarrow 6$ & RREQ(1,10,\{1,2,4,6\}) \\ \hline 
+	  \end{tabular}
+	  \caption{Turn 3}
+	\end{table}
+	
+	\begin{table}[h]
+	  \centering
+	  \begin{tabular}{| l | l |}
+	    \hline
+	    Turn4  & Message \\ \hline
+	    $7 \rightarrow 8$ & RREQ(1,10,\{1,2,3,7,8\}) \\ \hline 
+	    $5 \rightarrow 7$ & RREQ(1,10,\{1,2,4,5,7\}) \\ \hline 
+	    $6 \rightarrow 9$ & RREQ(1,10,\{1,2,4,6,9\}) \\ \hline 
+	  \end{tabular}
+	  \caption{Turn 4}
+	\end{table}
+	
+	\begin{table}[h]
+	  \centering
+	  \begin{tabular}{| l | l |}
+	    \hline
+	    Turn5  & Message \\ \hline
+	    $8 \rightarrow 9$ & RREQ(1,10,\{1,2,3,7,8,9\}) \\ \hline
+	    $8 \rightarrow 10$ & RREQ(1,10,\{1,2,3,7,8,10\}) \\ \hline 
+	    $9 \rightarrow 8$ & RREQ(1,10,\{1,2,4,6,9,8\}) \\ \hline 
+	  \end{tabular}
+	  \caption{Turn 5}
+	\end{table}
+	
+	\begin{table}[h]
+	  \centering
+	  \begin{tabular}{| l | l |}
+	    \hline
+	    Node & Cache \\ \hline
+	    1    & 1,10,\{1,2,3,7,8,10\}; 1,8,\{1,2,3,7,8\}; 1,7,\{1,2,3,7\}; 1,3,\{1,2,3\}\\ \hline
+	    2    & 2,10,\{2,3,7,8,10\}; 2,8,\{2,3,7,8\}; 2,7,\{2,3,7\}\\ \hline
+	    3    & 3,1,\{3,2,1\}; 3,10,\{3,7,8,10\}; 3,8,\{3,7,8\}\\ \hline
+	    4    & 4,1,\{4,2,1\}\\ \hline
+	    5    & 5,1,\{5,4,2,1\}; 5,2,\{5,4,2\}\\ \hline
+	    6    & 6,1,\{6,4,2,1\}; 6,2,\{6,4,2\}\\ \hline
+	    7    & 7,1,\{7,3,2,1\}; 7,2,\{7,3,2\}; 7,10,\{7,8,10\}\\ \hline
+	    8    & 8,1,\{8,7,3,2,1\}; 8,2,\{8,7,3,2\}; 8,3,\{8,7,3\}\\ \hline
+	    9    & 9,1,\{9,6,4,2,1\}; 9,2,\{9,6,4,2\}; 9,4,\{9,6,4\}\\ \hline
+	    10   & 10,1,\{10,8,7,3,2,1\}; 10,2,\{10,8,7,3,2\}; 10,3,\{10,8,7,3\}; 10,7,\{10,8,7\}\\ \hline
+	  \end{tabular}
+	  \caption{Final Route Cache}
+	\end{table}
+	
+	The response sent by node 10 is RREP(10,1,\{1,2,3,7,8,10\}).
+	
+	\subsection*{c) Resulting Path}
+	
+	Node 1 would get the path $1 \rightarrow 2 \rightarrow 3 \rightarrow 7 \rightarrow 8 \rightarrow 10$. Other possible paths such as $1 \rightarrow 2 \rightarrow 4 \rightarrow 5 \rightarrow 7 \rightarrow 8 \rightarrow 10$ or $1 \rightarrow 2 \rightarrow 4 \rightarrow 6 \rightarrow 9 \rightarrow 8 \rightarrow 10$ would be discarded at nodes 7/8 as they already received a route request for the same route earlier and thus the later request cannot possibly be the optimal path between origin and destination.
+	
+	\subsection*{d) Caching}
+	
+	Node 4 would get a response from Node 2 immediately as Node 2 has the Route $2 \rightarrow 10$ in its Cache. The resulting route would be $4 \rightarrow 2 \rightarrow 3 \rightarrow 7 \rightarrow 8 \rightarrow 10$.
+	
+	\subsection*{e) Considerations}
+	
+	The Route obtained from Node 2 is obviously not optimal ($4 \rightarrow 5 \rightarrow 7 \rightarrow 8 \rightarrow 10$ would be shorter). However the route calculation was completed much faster and with less communication overhead, which might make the less optimal routes a worthwhile tradeoff.
+	
+	\section{Overlay Routing}
+	
+	\subsection*{a) A to C}
+	Path: $A \rightarrow C$ \\
+	Hop Count: 3 \\
+	Stretch: $3 / 3 = 1$
+	
+	\subsection*{b) C to E}
+	Path: $C \rightarrow B \rightarrow E$ \\
+	Hop Count: 9 \\
+	Stretch: $9 / 3 = 3$
+	
+	\subsection*{c) D to E}
+	Path: $D \rightarrow A \rightarrow C \rightarrow B \rightarrow E$ \\
+	Hop Count: 16 \\
+	Stretch: $16 / 2 = 8$
+	
+\end{document}
