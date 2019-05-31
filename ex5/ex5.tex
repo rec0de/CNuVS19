@@ -1,0 +1,77 @@
+\documentclass[a4paper, 11 pt, article, accentcolor=tud7b]{tudreport}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{placeins}
+
+\title{CNuVS Exercise 5}
+\author{Nils Rollshausen, Daniel Drodt}
+\subtitle{Nils Rollshausen, Daniel Drodt}
+
+\begin{document}
+	\maketitle
+	\section{IP Addressing}
+	\subsection*{a) Checksum}
+	  The checksum field in the IPv4 header is 16 bit long. Its value is calculated as the binary inverse of the sum of all 16 bit fields of the header (where the checksum is assumed to be zero). The addition is performed in the one's complement, meaning that a potential carry-out or 17th bit is added to the total sum.
+	  
+	\subsection*{b) Class-full networks}
+	In class-full IP addressing, there can be no more than 126 Class-A networks ($2^7 - 2$ or 7 bit without the all-one and all-zero cases).
+	
+	\subsection*{c) IP dissection}
+	The IP address 51.101.193.69 is 00110011.01100101.11000001.01000101 in binary representation. As the first bit is zero, the network is a class-A network, the full network part is 51.0.0.0 or 00110011.0.0.0 in binary. The host part is everything after the 19th bit, so 0.0.1.69 or 0.0.00000001.01000101. This leaves the subnet part as the 9th to 19th bits - 0.101.192.0 and 0.01100101.11000000.0. \\
+	The subnet mask is 255.255.192.0 or 11111111.11111111.11000000.00000000.
+	
+	\subsection*{d) Class-less vs. class-full}
+	In class-full IP addressing, the networks and network sizes are statically determined and clustered into few different network types, resulting in many organizations having networks much larger than they actually need. In class-less IP addressing, the network and subnet size is flexible and can be chosen to fit a specific network topology.
+	
+	\section{Subnet Masks}
+	
+	\subsection*{a) Class and default subnet mask}
+	The IP 80.74.0.0 belongs to a class A network, therefore the default netmask is 255.0.0.0.
+	
+	\subsection*{b) Alternate subnet mask}
+	The administrator likely needs to address more than 510 nodes in a single subnet but wants to retain a maximum possible number of subnets. Thus a netmask of 255.255.255.0 would not allow enough nodes in a single subnet while a netmask of 255.255.0.0 would not provide the optimal number of possible subnets. With the given netmask, $2^{10} - 2 = 1022$ hosts can be addressed in a given subnet.
+	
+	\section{Variable Length Subnet Masks}
+	
+	\subsection*{a) Subnet mask}
+	
+	The subnet mask for the network is 255.252.0.0 or 11111111.11111100.00000000.00000000
+	
+	\subsection*{b) Usable host addresses}
+	The subnet part takes 3 bit, leaving 18 bit for the host part. This means that the number of usable host addresses in each subnet is given by $2^{18} - 2 = 262.142$.
+	
+	\subsection*{c) Subnet addresses}
+	
+	\begin{table}[h]
+	  \centering
+	  \begin{tabular}{| c | l | l |}
+	    \hline
+	    Subnet & Subnet address & Broadcast address \\ \hline
+	    A & 97.0.0.0/14 & 97.3.255.255 \\ \hline
+	    B & 97.4.0.0/14 & 97.7.255.255 \\ \hline
+	    C & 97.8.0.0/14 & 97.11.255.255 \\ \hline
+	    D & 97.12.0.0/14 & 97.15.255.255 \\ \hline
+	    E & 97.16.0.0/14 & 97.19.255.255 \\ \hline
+	    F & 97.20.0.0/14 & 97.23.255.255 \\ \hline
+	    G & 97.24.0.0/14 & 97.27.255.255 \\ \hline
+	    H & 97.28.0.0/14 & 97.31.255.255 \\ \hline
+	  \end{tabular}
+	  \caption{Subnet addresses}
+	\end{table}
+	
+	\section{Address Aggregation \& NAT}
+	
+	\subsection*{a) Aggregation}
+	The IP addresses 8.42.192.0/22, 8.42.196.0/22, 8.42.200.0/22 and 8.42.204.0/22 can be aggregated into 8.42.192.0/20. This is possible because all addresses share the first 20 bit and, when combined, they cover all possible combinations for the 21st and 22nd bits.
+	
+	\subsection*{b) Multiple interfaces}
+	The routing table will contain the entry 21.242.112.0/22 for interface two and the entries 21.242.0.0/18 and 21.242.112.0/20 for interface one. (Alternatively, the two entries may be combined to 21.242.0.0/17)
+	
+	\subsection*{c) NAT Motivation}
+	The main reason for deploying NAT on a large scale is the increasing scarcity of available IPv4 addresses. NAT allows a single router with one IP address to represent many individual hosts, which do not need globally unique IP addresses anymore.
+	
+	\subsection*{d) IPv6 NAT}
+	IPv6 provides an abundant amount of addresses, which is why NAT as a measure to reduce address consumption is generally speaking not necessary.
+	
+\end{document}
