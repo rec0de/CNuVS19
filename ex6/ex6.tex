@@ -22,7 +22,7 @@
 	
 	\subsection*{d) Sequence numbers}
 	Sequence numbers are used to detect duplicate copies of packets or packets that have been delayed by the network and arrive out-of-order. They enable the host to either discard or re-order packets as necessary. One problem is that there is only limited space available for sequence numbers, so numbers have to be re-used eventually. If the time between re-uses is too short (e.g. on very fast connections), the receiving host might mistake an old sequence number for a current one. \\
-	\textbf{[Another problem?]}
+	Additionally, using sequence numbers alone, it is not possible to between a packet getting lost in transmission or simply being delivered out-or-order.
 	
 	\section{Ports}
 	
@@ -39,13 +39,13 @@
 	In general, it is undesirable to run complex software (e.g. a webserver) with superuser privileges as any vulnerability in that software would grant an attacker superuser access and thus threaten the entire system. Additionally, end users might not be able to run software with superuser privileges (e.g. on a managed system where they do not have admin rights) and thus cannot use the well-known ports at all.
 	
 	\subsection*{e) Workarounds}
-	One possible workaround to binding a privileged port to a non-root process is to start the process \textit{with} superuser privileges, bind the desired port, and then have the process revoke its own priviliges, thereby turning in to a regular, unprivileged process.
+	One possible workaround to binding a privileged port to a non-root process is to start the process \textit{with} superuser privileges, bind the desired port, and then have the process revoke its own priviliges, thereby turning into a regular, unprivileged process.
 	
 	\section{Alternating bit protocol}
 	
 	\subsection*{a) Alternating bit transfer time}
 	
-	To send a single 32 Kib packet over the sattelite link, we need $42ms + \frac{32 Kib}{40 \cdot 2^{20} Kib/s} = 42ms + 6.104\mu s \approx 42.0061 ms$. To transfer 5.1 Mib, we need $\frac{5.1 \cdot 2^{10} Kib}{32 Kib = 163.2 \approx 164}$ packets. For each packet, we must also transfer the acknowledgement in the opposite direction. Therefore, the total transmission time is $42.0061ms \cdot 164 \cdot 2 = 13.7780s$
+	To send a single 32 Kib packet over the sattelite link, we need $42ms + \frac{32 Kib}{40 \cdot 2^{20} Kib/s} = 42ms + 6.104\mu s \approx 42.0061 ms$. To transfer 5.1 Mib, we need $\frac{5.1 \cdot 2^{10} Kib}{32 Kib} = 163.2 \approx 164$ packets. For each packet, we must also transfer the acknowledgement in the opposite direction. Therefore, the total transmission time is $42.0061ms \cdot 164 \cdot 2 = 13.7780s$
 	
 	\subsection*{b) Unacknowledged transfer time}
 	If we only acknowledge the entire transmission once it is complete, the transmission time is reduced to $42ms + \frac{5.1 \cdot 2^{10} Kib}{40 \cdot 2^{20} Kib/s} + 42.0061ms \approx 84ms + 0.13061ms \approx 0.084131s$
