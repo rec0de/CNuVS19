@@ -22,6 +22,8 @@
 	Rate-based flow control relies on the receiver to actively indicate the maximum transfer rate it can support by sending control packets to the sender periodically. Window-based flow control allows senders to have a previously agreed on number of packets in flight (unacknowledged) simultaneously. When this number is exceeded, the sender has to wait for previous packets to be acknowledged before sending new ones. In its acknowledgements, the receiver may indicate a change in the window size. \\
 	In a high-speed network, the amount of data sent until a control packet makes its way from receiver to sender may be very large - therefore, to prevent large amounts of dropped packages, it is probably advisable to use window-based flow control on such networks.
 
+  \newpage
+
 	\section{TCP Flow Control}
 
 	\begin{figure}[h]
@@ -32,6 +34,8 @@
 	\FloatBarrier
 	
 	\section{Sliding Window Protocols}
+	
+	\textit{See following page}
 
 	\begin{figure}[h]
 		\centering
