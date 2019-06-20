@@ -1,0 +1,125 @@
+\documentclass[a4paper, 11 pt, article, accentcolor=tud7b]{tudreport}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{placeins}
+
+\title{CNuVS Exercise 8}
+\author{Nils Rollshausen, Daniel Drodt}
+\subtitle{Nils Rollshausen, Daniel Drodt}
+
+\begin{document}
+	\maketitle
+	\section{UDP}
+	\subsection*{a) Source / destination ports}
+	Source Port: 0x5F, Destination Port: 0x2328
+	  
+	\subsection*{b) Message}
+	\verb|0x6a75 7374 2075 7365 2073 6861 2d33 21|
+	
+	\subsection*{c) Checksum calculation}
+	
+	\begin{table}[h]
+	  \centering
+	  \begin{tabular}{| l | l | l |}
+	    \hline
+	    Last value & Added value & Checksum \\ \hline
+	    0x0000 & 0x005F & 0x005F \\ \hline
+	    0x005F & 0x2328 & 0x2387 \\ \hline
+	    0x2387 & 0x0017 & 0x239E \\ \hline
+	    0x239E & 0x6A75 & 0x8E13 \\ \hline
+	    0x8E13 & 0x7374 & 0x0188 \\ \hline
+	    0x0188 & 0x2075 & 0x21FD \\ \hline
+	    0x21FD & 0x7376 & 0x9562 \\ \hline
+	    0x9562 & 0x2073 & 0xB5D5 \\ \hline
+	    0xB5D5 & 0x6861 & 0x1E37 \\ \hline
+	    0x1E37 & 0x2d33 & 0x4B6A \\ \hline
+	    0x4B6A & 0x2100 & 0x6C6A \\ \hline
+	  \end{tabular}
+	  \caption{Checksum calculation}
+	\end{table}
+	0x005F + 0x2328 + 0x0017 + 0x0000 + 0x6a75 + 0x7374 + 0x2075 + 0x7365 + 0x2073 + 0x6861 + 0x2d33 + 0x2100
+	0x239E + 0x6a75 + 0x7374 + 0x2075 + 0x7365 + 0x2073 + 0x6861 + 0x2d33 + 0x2100
+	\subsection*{d) Checksum}
+	
+	The final checksum is the complement of the previously calculated \verb|0x6C6A|, \verb|0x9395|.
+	
+	\subsection*{e) UDP segment}
+	\begin{table}[h]
+	  \centering
+    \begin{tabular}{|l|l|}
+      \hline
+      \texttt{005F} & \texttt{2328} \\ \hline
+      \texttt{0017} & \texttt{9395} \\ \hline
+      \multicolumn{2}{|l|}{\texttt{6a75 7374}} \\
+      \multicolumn{2}{|l|}{\texttt{2075 7365}} \\
+      \multicolumn{2}{|l|}{\texttt{2073 6861}} \\
+      \multicolumn{2}{|l|}{\texttt{2d33 2100}} \\\hline
+    \end{tabular}
+    \caption{Completed UDP segment}
+  \end{table}
+	
+	\section{UDP and TCP}
+	
+	\subsection*{a) Well-known ports}
+	UDP/7 is associated with the Echo protocol which is used to measure round-trip-times between network nodes by replying to incoming messages by sending the same data back. \medskip \\
+	TCP/22 is commonly used for ssh, which establishes secure shell connections to a host most frequently used for remote administration of servers. \medskip \\
+	UDP/37 is associated with the (mostly obsolete) Time protocol which allows network nodes to communicate time information in order to synchronize their local clocks.  \medskip \\
+	TCP/80 is used for insecure http which allows clients to view webpages served by a webserver.
+	
+	\subsection*{b) Differences of TCP and UDP}
+	The most significant differences between TCP and UDP are that UDP does not provide reliability or in-order transmission and that UDP also does not provide any flow- or congestion control by itself.
+	
+	\subsection*{c) Benefits of UDP}
+	Firstly, UDP is significantly more lightweight than TCP and can therefore transmit data with less overhead. TCP is also able to utilize network capacity even in congested situations due to its disregard to congestion control measures. On the other hand, UDP does not implement any reliability measures - applications that are sensitive to data loss would have to implement such measures themselves. Furthermore, there is no mechanism for flow control in UDP, so receiving nodes could potentially be overloaded by large amounts of UDP traffic.
+	
+	\subsection*{d) Another scenario}
+	In P2P filesharing, chunks of a single file are sourced from many different peers simultaneously which may come online or offline at any time. Therefore, the application has to implement large amounts of error correction and reliability measures on the application layer regardless of the chosen transport protocol. Dropped packages could indicate that a peer went offline and can most likely be more efficiently sourced from a different peer. Therefore, UDP would be the protocol of choice here for its low overhead.
+	
+	\subsection*{e) QUIC}
+	One feature of QUIC is that it allows for an established connection between server and client to be continued even if the client's IP address changes by adding a unique connection ID to every connection. This improves connection speeds when a user switches over e.g. from WiFi to mobile data, in which case regular TCP connections would have to wait for a timeout before re-establishing the connection. \\
+	QUIC uses UDP as a lightweight base for transmitting packets because many middle-boxes and other internet equipment may not handle unknown protocols correctly and operating systems usually only provide kernel support for TCP and UDP. As QUIC implements reliability / flow- and congestion control mechanisms itself, using TCP as an underpinning for QUIC would be highly inefficient and redundant.
+	
+	\section{Two Army Problem / Connection Release}
+	
+	\subsection*{a) Two Army Problem}
+	
+	The two Generals can never be certain that they have reached a consensus because any message, as well as any acknowledgement, could be dropped. Consider the following argument: \medskip \\
+	Any protocol the Generals could use to establish consensus consists of a finite exchange of messages up to a point where they are both certain to have reached an agreement. If now the last message before that point is dropped (and all others are delivered successfully), the general sending that message will assume consensus and not expect any further messages while the receiving general will not be able to complete the protocol and assume no consensus is reached.
+	
+	\subsection*{b) TCP Handshake}
+	
+	  \begin{table}[h]
+	    \centering
+	    \begin{tabular}{| l | l |}
+	      \hline
+	      Sequence Number & 0xBADF00D \\ \hline
+	      Acknowledge Number & - \\ \hline
+	      Flags & SYN \\ \hline
+	    \end{tabular}
+	    \caption{SYN-packet}
+	  \end{table}
+	  
+	  \begin{table}[h]
+	    \centering
+	    \begin{tabular}{| l | l |}
+	      \hline
+	      Sequence Number & 0xDEADBEEF \\ \hline
+	      Acknowledge Number & 0xBADF00E \\ \hline
+	      Flags & SYN, ACK \\ \hline
+	    \end{tabular}
+	    \caption{SYN-ACK-packet}
+	  \end{table}
+	
+	  \begin{table}[h]
+	    \centering
+	    \begin{tabular}{| l | l |}
+	      \hline
+	      Sequence Number & 0xBADF00E \\ \hline
+	      Acknowledge Number & 0xDEADBEF0 \\ \hline
+	      Flags & ACK \\ \hline
+	    \end{tabular}
+	    \caption{ACK-packet}
+	  \end{table}
+	
+	\end{document}
