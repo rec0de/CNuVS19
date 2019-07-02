@@ -4,6 +4,7 @@
 \usepackage{amsmath}
 \usepackage{placeins}
 \usepackage{tabularx}
+\usepackage{subcaption}
 
 \title{CNuVS Exercise 9}
 \author{Nils Rollshausen, Daniel Drodt}
@@ -51,9 +52,9 @@
 	          = &0xFFFF - 0xC370 = 0x3C8F
 	\end{align*}
 	
-	\subsection*{c) TCP header fields}
+	\newpage
 	
-	\FloatBarrier
+	\subsection*{c) TCP header fields}
 	
 	\begin{table}[h]
 	  \centering
@@ -78,8 +79,29 @@
 	  \caption{TCP header fields}
 	\end{table}
 	
-	\subsection*{Retransmission}
+	\subsection*{d) Retransmission}
+	\begin{figure}[h]
+    \begin{subfigure}[b]{0.3\textwidth}
+      \includegraphics[width=\textwidth]{retrans1.png}
+      \caption{Lost ACK}
+      \label{fig:1}
+    \end{subfigure}
+    %
+    \begin{subfigure}[b]{0.3\textwidth}
+      \includegraphics[width=\textwidth]{retrans2.png}
+      \caption{Premature Timeout}
+      \label{fig:2}
+    \end{subfigure}
+    %
+    \begin{subfigure}[b]{0.3\textwidth}
+      \includegraphics[width=\textwidth]{retrans3.png}
+      \caption{Cumulative ACK}
+      \label{fig:2}
+    \end{subfigure}
+  \end{figure}
 	When an ACK packet is lost, the sender would, after a timeout, consider the packet whose acknowledgement got dropped to be lost and re-send it. The receiver recognizes the re-sent packet as a duplicate, discards it, and responds with an up-to-date acknowledgement.
+	
+	\FloatBarrier
 	
 	\section{RED, State Chart \& Nagle}
 	
