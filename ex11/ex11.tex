@@ -43,10 +43,18 @@
 	\subsection*{a) Multicast from A}
 	
 	\begin{figure}[h]
-	  \centering
-    \includegraphics[width=\textwidth/2]{graph-a.pdf}
-    \caption{Multicast Path starting in A}
-  \end{figure}
+	  	\centering
+    	\includegraphics[width=\textwidth/2]{graph-a.pdf}
+    	\caption{Multicast Path starting in A}
+  	\end{figure}
+	\begin{tabular}{llllllllll}
+		A & $\rightarrow$ & C & $\rightarrow$ & F & & & & & \\
+		& & & & $\rightarrow$ & B & & & &\\
+		& & & & $\rightarrow$ & C & $\rightarrow$ & A & $\rightarrow$ & D \\
+		& & & & $\rightarrow$ & H & & & & \\
+		& & & & & $\rightarrow$ & G & & &\\
+		& & & & & $\rightarrow$ & K & & & \\
+	\end{tabular}
 	
 	\subsection*{b) Multicast from C}
 	
@@ -55,5 +63,13 @@
     \includegraphics[width=\textwidth/2]{graph-b.pdf}
     \caption{Multicast Path starting in C}
   \end{figure}
+	\begin{tabular}{llllllllll}
+		C & $\rightarrow$ & F & & & & & & &\\
+		& & $\rightarrow$ & B & & & & & & \\
+		& & $\rightarrow$ & C & $\rightarrow$ & A & $\rightarrow$ & D & &\\
+		& & $\rightarrow$ & H & & & & & & \\
+		& & & $\rightarrow$ & G & & & & &\\
+		& & & $\rightarrow$ & K & & & & &
+	\end{tabular}
 	
 	\end{document}
